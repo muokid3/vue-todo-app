@@ -1,23 +1,45 @@
 <template>
   <h1>ToDo App</h1>
-  <form>
+  <form @submit.prevent="addItem">
     <label>New ToDO</label>
-    <input type="text" />
+    <input type="text" v-model.trim="todo" />
 
     <button>Add ToDo</button>
   </form>
 
   <h2>ToDO List</h2>
-  <todo-list></todo-list>
+  <todo-list :todoLists="todoList" @remove-item="removeItem"></todo-list>
 </template>
 
 <script>
 import TodoList from "./components/TodoList.vue";
 
 export default {
-  name: "App",
   components: {
     TodoList,
+  },
+  data() {
+    return {
+      todo: "",
+      todoList: [],
+    };
+  },
+  methods: {
+    addItem() {
+      const newItem = {
+        id: new Date().getTime().toString(),
+        todo: this.todo,
+        isDone: false,
+      };
+
+      this.todo = "";
+
+      this.todoList.push(newItem);
+    },
+    removeItem(id) {
+      let updatedList = this.todoList.filter((item) => item.id !== id);
+      this.todoList = updatedList;
+    },
   },
 };
 </script>
@@ -55,7 +77,7 @@ input {
   color: inherit;
 }
 input,
-button {
+form button {
   height: 48px;
   box-shadow: none;
   outline: none;
@@ -67,7 +89,7 @@ button {
   margin-bottom: 12px;
 }
 
-button {
+form button {
   cursor: pointer;
   background-color: #a0a4d9;
   border: 1px solid #a0a4d9;
