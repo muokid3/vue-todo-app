@@ -1,26 +1,123 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>ToDo App</h1>
+  <form>
+    <label>New ToDO</label>
+    <input type="text" />
+
+    <button>Add ToDo</button>
+  </form>
+
+  <h2>ToDO List</h2>
+  <todo-list></todo-list>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TodoList from "./components/TodoList.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    TodoList,
+  },
+};
 </script>
 
 <style>
 #app {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #27292d;
+  color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+label {
+  font-size: 14px;
+  font-weight: bold;
+}
+input {
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: inherit;
+}
+input,
+button {
+  height: 48px;
+  box-shadow: none;
+  outline: none;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 6px;
+  font-size: 18px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+button {
+  cursor: pointer;
+  background-color: #a0a4d9;
+  border: 1px solid #a0a4d9;
+  color: #1f2023;
+  font-weight: bold;
+  outline: none;
+  border-radius: 6px;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 28px;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+h2 {
+  font-size: 22px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+  padding-bottom: 6px;
+}
+h4 {
+  text-align: center;
+  opacity: 0.5;
+  margin: 0;
+}
+
+ul {
+  padding: 10px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  padding: 12px 24px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+li span {
+  cursor: pointer;
+}
+
+li .done {
+  text-decoration: line-through;
+}
+
+li button {
+  font-size: 12px;
+  padding: 6px;
 }
 </style>
