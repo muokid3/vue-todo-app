@@ -3,12 +3,13 @@
   <form @submit.prevent="addItem">
     <label>New ToDO</label>
     <input type="text" v-model.trim="todo" />
+    <p style="color: red" v-if="hasError">{{ errorText }}</p>
 
     <button>Add ToDo</button>
   </form>
 
   <h2>ToDO List</h2>
-  <todo-list :todoLists="todoList" @remove-item="removeItem"></todo-list>
+  <todo-list :todoLists="todoLists" @remove-item="removeItem"></todo-list>
 </template>
 
 <script>
@@ -18,27 +19,38 @@ export default {
   components: {
     TodoList,
   },
+  computed: {
+    todoLists() {
+      return this.$store.getters.getTodoList;
+    },
+  },
   data() {
     return {
       todo: "",
-      todoList: [],
+      errorText: "",
+      hasError: false,
     };
   },
   methods: {
     addItem() {
-      const newItem = {
-        id: new Date().getTime().toString(),
-        todo: this.todo,
-        isDone: false,
-      };
+      if (this.todo.length === 0) {
+        //show error here
+        this.errorText = "Please enter something before submitting";
+        this.hasError = true;
+      } else {
+        this.hasError = false;
 
-      this.todo = "";
-
-      this.todoList.push(newItem);
+        const newItem = {
+          id: new Date().getTime().toString(),
+          todo: this.todo,
+          isDone: false,
+        };
+        this.todo = "";
+        this.$store.dispatch("addItem", newItem);
+      }
     },
     removeItem(id) {
-      let updatedList = this.todoList.filter((item) => item.id !== id);
-      this.todoList = updatedList;
+      this.$store.dispatch("removeItem", { id: id });
     },
   },
 };
